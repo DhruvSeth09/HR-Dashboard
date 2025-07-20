@@ -13,7 +13,6 @@ export default function Login({ setIsAuthenticated }) {
     setIsLoading(true);
     setError('');
     
-    // Simulate API call
     setTimeout(() => {
       if (email === 'admin@hr.com' && password === 'admin123') {
         setIsAuthenticated(true);
