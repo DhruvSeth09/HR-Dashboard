@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBookmarks } from '../context/BookmarkContext';
 import RatingStars from './RatingStars';
@@ -8,6 +8,13 @@ export default function EmployeeCard({ user }) {
   const navigate = useNavigate();
   const { bookmarkedUsers, toggleBookmark } = useBookmarks();
   const isBookmarked = bookmarkedUsers.some((u) => u.id === user.id);
+  const [promote,setPromote]=useState(false);
+
+  function onHandler(e){
+            setPromote(!promote);
+            e.stopPropagation();
+            alert(`Promotion initiated for ${user.firstName}`);
+  }
 
   return (
     <div className="border rounded-xl p-4 shadow bg-white dark:bg-gray-800 transition-all hover:shadow-lg hover:transform hover:-translate-y-1">
@@ -98,16 +105,20 @@ export default function EmployeeCard({ user }) {
           View
         </button>
         <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            alert(`Promotion initiated for ${user.firstName}`);
-          }}
+          onClick={onHandler}
           className="flex-1 py-2 px-3 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition flex items-center justify-center gap-1"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          Promote
+          {promote ? (
+        <>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      Promoted
+    </>
+  ) : (
+    'Promote'
+  )}
+          
         </button>
       </div>
     </div>
